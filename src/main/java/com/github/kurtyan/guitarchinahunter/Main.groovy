@@ -27,6 +27,8 @@ class Main {
                 "mh-1000",
         ]
 
+        logger.info("begin")
+
         def mapper = new ObjectMapper()
         def jedis = new Jedis(args[0], args[1] as int)
         def key = "guitarchin-hunter"
