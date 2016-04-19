@@ -16,13 +16,13 @@ import redis.clients.jedis.Jedis
 class Main {
 
     public static void main(String[] args) {
-        def redisHost = System.getenv("redis.host")
-        def redisPort = System.getenv("redis.port")
-        def smtpServer = System.getenv("smtp.server")
-        def smtpUsername = System.getenv("smtp.username")
-        def smtpPasword = System.getenv("smtp.password")
-        def emailSender = System.getenv("email.sender")
-        def emailReceiver = System.getenv("email.receiver")
+        def redisHost = System.getenv("redisHost")
+        def redisPort = System.getenv("redisPort")
+        def smtpServer = System.getenv("smtpServer")
+        def smtpUsername = System.getenv("smtpUsername")
+        def smtpPasword = System.getenv("smtpPassword")
+        def emailSender = System.getenv("emailSender")
+        def emailReceiver = System.getenv("emailReceiver")
 
         def keywordList = [
                 "horizon",
