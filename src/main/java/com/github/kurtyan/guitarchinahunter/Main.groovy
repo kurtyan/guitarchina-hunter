@@ -70,8 +70,8 @@ class Main {
         )
 
         def intervalAwareScheduler = new IntervalAwareScheduler(
-                IntervalConfigSet.newInstance().addIntervalConfig("0100", "0800", 60000L),
-                10000L
+                IntervalConfigSet.newInstance().addIntervalConfig("0100", "0800", 300000L),
+                30000L
         )
         intervalAwareScheduler.submit(crawler)
     }
