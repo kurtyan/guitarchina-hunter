@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.kurtyan.guitarchinahunter.parser.entity.ThreadEntry
 import com.github.kurtyan.guitarchinahunter.schedule.IntervalAwareScheduler
 import com.github.kurtyan.guitarchinahunter.schedule.IntervalConfigSet
+import com.github.kurtyan.guitarchinahunter.schedule.RetriableScheduler
 import com.guilhermechapiewski.fluentmail.email.EmailMessage
 import com.guilhermechapiewski.fluentmail.transport.EmailTransportConfiguration
 import groovy.util.logging.Slf4j
@@ -33,6 +34,8 @@ class Main {
 
         log.info("begin hunter execution")
 
+
+        def sendEmailExecutor = new RetriableScheduler()
         def mapper = new ObjectMapper()
         def jedis = new Jedis(redisHost, redisPort as int)
         EmailTransportConfiguration.configure(smtpServer, true, true, smtpUsername, smtpPasword);
@@ -49,19 +52,22 @@ class Main {
                             if (entry.title.toLowerCase(Locale.CHINESE).contains(it)) {
                                 log.info("thread entry matching keyword: {}, entry: {}", it, entry)
 
-                                try {
-                                    log.info("will begin to send mail")
+                                sendEmailExecutor.submit {
+                                    try {
+                                        log.info("will begin to send mail")
 
-                                    new EmailMessage()
-                                            .from(emailSender)
-                                            .to(emailReceiver)
-                                            .withSubject("thread mathcing keyword: ${it} found")
-                                            .withBody(entry.toString())
-                                            .send();
+                                        new EmailMessage()
+                                                .from(emailSender)
+                                                .to(emailReceiver)
+                                                .withSubject("thread mathcing keyword: ${it} found")
+                                                .withBody(entry.toString())
+                                                .send();
 
-                                    log.info("send email succeeded")
-                                } catch (Exception e) {
-                                    log.error("send email failed", e)
+                                        log.info("send email succeeded")
+                                    } catch (Exception e) {
+                                        log.error("send email failed", e)
+                                        throw e
+                                    }
                                 }
                             }
                         }
