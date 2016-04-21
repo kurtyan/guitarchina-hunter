@@ -10,7 +10,7 @@ class RetriableScheduler {
 
     def executor = Executors.newCachedThreadPool()
 
-    def Future submit(int maxRetryTimes, Runnable runnable) {
+    def Future submit(int maxRetryTimes, Closure runnable) {
         return executor.submit {
             for (int i = 0; i < maxRetryTimes; i++) {
                 try {
@@ -18,7 +18,7 @@ class RetriableScheduler {
                     return
                 } catch (Exception e) {}
             }
-        }
+        } as Runnable
     }
 
 }
