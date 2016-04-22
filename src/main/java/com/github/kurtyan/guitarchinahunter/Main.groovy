@@ -52,7 +52,7 @@ class Main {
                             if (entry.title.toLowerCase(Locale.CHINESE).contains(it)) {
                                 log.info("thread entry matching keyword: {}, entry: {}", it, entry)
 
-                                sendEmailExecutor.submit {
+                                sendEmailExecutor.submit(5) {
                                     try {
                                         log.info("will begin to send mail")
 
