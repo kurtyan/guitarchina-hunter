@@ -48,9 +48,9 @@ class Main {
 
                         jedis.hset(key, entry.id, serialized)
 
-                        keywordList.each {
-                            if (entry.title.toLowerCase(Locale.CHINESE).contains(it)) {
-                                log.info("thread entry matching keyword: {}, entry: {}", it, entry)
+                        keywordList.each { keyword ->
+                            if (entry.title.toLowerCase(Locale.CHINESE).contains(keyword)) {
+                                log.info("thread entry matching keyword: {}, entry: {}", keyword, entry)
 
                                 sendEmailExecutor.submit(5) {
                                     try {
@@ -59,7 +59,7 @@ class Main {
                                         new EmailMessage()
                                                 .from(emailSender)
                                                 .to(emailReceiver)
-                                                .withSubject("thread mathcing keyword: ${it} found")
+                                                .withSubject("thread mathcing keyword: ${keyword} found")
                                                 .withBody(entry.toString())
                                                 .send();
 
