@@ -55,6 +55,7 @@
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -97,6 +98,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
@@ -137,9 +139,6 @@
                     </archive>
                 </configuration>
             </plugin>
-
-
-
 
         </plugins>
     </build>

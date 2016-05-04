@@ -34,17 +34,11 @@ class Main {
                 new Jedis(redisHost, redisPort as int)
         )
 
+        def keywordMatcher = new KeywordMatcher(keywordList: keywordList)
+
         def threadEntryHandler = { ThreadEntry entry ->
             threadFilter.callIfThreadIsNew(entry) { ThreadEntry newEntry ->
-                def matchingKeyword = null
-                keywordList.each { keyword ->
-                    if (entry.title.toLowerCase(Locale.CHINESE).contains(keyword)) {
-                        matchingKeyword = keyword
-                    }
-
-                }
-
-                if (matchingKeyword != null) {
+                keywordMatcher.callIfKeywordMatches(newEntry) { ThreadEntry keywordMatchingEntry ->
                     log.info("thread entry matching keyword: {}, entry: {}", matchingKeyword, entry)
                     threadEntryEmailSender.send(
                             entry,
