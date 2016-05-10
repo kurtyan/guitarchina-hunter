@@ -8,17 +8,16 @@ import java.util.concurrent.Future
  */
 class RetriableScheduler {
 
-    def executor = Executors.newCachedThreadPool()
+    val executor = Executors.newCachedThreadPool()
 
-    def Future submit(int maxRetryTimes, Closure runnable) {
+    fun submit(maxRetryTimes: Int, runnable: Runnable):Future<*> {
         return executor.submit {
-            for (int i = 0; i < maxRetryTimes; i++) {
+            for (i in 0..maxRetryTimes) {
                 try {
                     runnable.run()
-                    return
-                } catch (Exception e) {}
+                } catch (e: Exception) {}
             }
-        } as Runnable
+        }
     }
 
 }
