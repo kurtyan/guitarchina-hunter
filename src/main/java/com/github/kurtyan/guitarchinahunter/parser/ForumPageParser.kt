@@ -12,21 +12,16 @@ class ForumPageParser {
         val document = Jsoup.parse(forumPage)
         val threadElementList = document.getElementsByAttributeValueStarting("id", "normalthread")
 
-        val mapped = threadElementList.map { element ->
+        return threadElementList.map { element ->
             val threadTitleElement = element.getElementsByAttributeValueContaining("href", "thread")[1]
             val threadPath = threadTitleElement.attr("href")
 
-            val entry = ThreadEntry(
+            ThreadEntry(
                     threadPath.replace("thread-", "").replace("-1-1.html", ""),
                     threadTitleElement.text(),
                     "http://bbs.guitarchina.com/${threadPath}"
             )
-
-            return entry
         }
-
-
-        return mapped
     }
 
 }
