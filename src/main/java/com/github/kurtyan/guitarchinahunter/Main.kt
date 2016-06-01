@@ -21,6 +21,7 @@ fun main(args: Array<String>) {
     val emailSender = System.getenv("emailSender")
     val emailReceiver = System.getenv("emailReceiver")
     val keywordList = System.getenv("keywords").split(",") as List
+    val intervalConfig = System.getenv("intervalConfig")?.split(",")?.toList()
 
     log.info("begin hunter execution")
 
@@ -32,7 +33,7 @@ fun main(args: Array<String>) {
     )
 
     val threadFilter = NewThreadFilter(
-            Jedis(redisHost, redisPort as Int)
+            Jedis(redisHost, redisPort.toInt())
     )
     val keywordMatcher = KeywordMatcher(keywordList)
 
@@ -51,8 +52,15 @@ fun main(args: Array<String>) {
 
     val crawler = ForumPageCrawler(threadEntryHandler)
 
+
+    val intervalConfigSet = IntervalConfigSet()
+    intervalConfig?.forEach {
+        val splitted = it.split("-")
+        intervalConfigSet.addIntervalConfig(splitted[0], splitted[1], splitted[2].toLong())
+    }
+
     val intervalAwareScheduler = IntervalAwareScheduler(
-            IntervalConfigSet().addIntervalConfig("0100", "0800", 300000L),
+            intervalConfigSet,
             30000L
     )
     intervalAwareScheduler.submit(crawler)

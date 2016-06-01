@@ -14,7 +14,7 @@ import java.time.ZoneId
 class IntervalAwareRunableWapperTest {
 
     @Test
-    fun  testNotRunable(): Unit {
+    fun testNotRunable(): Unit {
         var runned = false
         val toBeWrapped = Runnable {
             runned = true

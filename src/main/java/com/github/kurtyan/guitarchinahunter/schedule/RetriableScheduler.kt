@@ -12,7 +12,7 @@ class RetriableScheduler {
 
     fun submit(maxRetryTimes: Int, runnable: Runnable):Future<*> {
         return executor.submit {
-            for (i in 0..maxRetryTimes) {
+            for (i in 0..maxRetryTimes - 1) {
                 try {
                     runnable.run()
                 } catch (e: Exception) {}

@@ -22,14 +22,13 @@ class IntervalAwareRunableWapper(val configList: List<IntervalConfig>,  val defa
         val shouldRun = now - lastRanInMillis > interval;
 
         log.debug("localTimeNow is {}, interval is {}", localTimeNow, interval)
-        log.debug("lastRanInMillis is {}, shouldRun: {}", lastRanInMillis, shouldRun)
+        log.debug("lastRan is {}, shouldRun: {}", LocalDateTime.ofInstant(Instant.ofEpochMilli(lastRanInMillis), ZoneId.of("GMT+8")), shouldRun)
 
         return shouldRun
     }
 
     public override fun run(): Unit {
         val now = invokeTimeProvider.invoke()
-        log.debug("currentTime is {}", now)
 
         if (this.shouldRun(now)) {
             try {

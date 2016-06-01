@@ -46,6 +46,14 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.jmockit</groupId>
+            <artifactId>jmockit</artifactId>
+            <version>1.23</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
@@ -154,7 +162,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.github.kurtyan.guitarchinahunter.Main</mainClass>
+                            <mainClass>com.github.kurtyan.guitarchinahunter.MainKt</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
